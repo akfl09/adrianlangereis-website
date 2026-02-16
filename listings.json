@@ -1,0 +1,32 @@
+[
+  {
+    "image": "",
+    "tag": "Featured",
+    "address": "123 Example Street, Victoria",
+    "price": "$1,295,000",
+    "beds": 4,
+    "baths": 3,
+    "sqft": "2,450",
+    "url": "https://www.realtor.ca/real-estate/XXXXXXX"
+  },
+  {
+    "image": "",
+    "tag": "New Listing",
+    "address": "456 Sample Avenue, Saanich",
+    "price": "$899,000",
+    "beds": 3,
+    "baths": 2,
+    "sqft": "1,800",
+    "url": "https://www.realtor.ca/real-estate/XXXXXXX"
+  },
+  {
+    "image": "",
+    "tag": "Just Sold",
+    "address": "789 Demo Boulevard, Oak Bay",
+    "price": "SOLD",
+    "beds": 5,
+    "baths": 4,
+    "sqft": "3,200",
+    "url": "https://www.realtor.ca/real-estate/XXXXXXX"
+  }
+]
