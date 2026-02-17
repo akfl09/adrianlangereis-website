@@ -1352,7 +1352,8 @@
 
             <div class="contact-form fade-in" id="contactForm">
                 <h3>Send Me A Message</h3>
-                <form id="form" onsubmit="handleSubmit(event)">
+                <form id="form" name="contact" method="POST" data-netlify="true" onsubmit="handleSubmit(event)">
+                    <input type="hidden" name="form-name" value="contact">
                     <div class="form-row">
                         <div class="form-group">
                             <label for="firstName">First Name *</label>
@@ -1544,27 +1545,43 @@
         loadListings();
         function handleSubmit(e) {
             e.preventDefault();
-            const btn = e.target.querySelector('.form-submit');
+            const form = e.target;
+            const btn = form.querySelector('.form-submit');
             const status = document.getElementById('formStatus');
 
             btn.disabled = true;
             btn.textContent = 'Sending...';
 
-            // Simulate submission — replace with actual form endpoint
-            // Options: Formspree, Netlify Forms, or custom backend
-            setTimeout(() => {
-                status.className = 'form-status success';
-                status.textContent = 'Message sent! I\'ll be in touch shortly.';
-                btn.textContent = 'Sent';
-                e.target.reset();
+            const formData = new FormData(form);
 
+            fetch('/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams(formData).toString()
+            })
+            .then(response => {
+                if (response.ok) {
+                    status.className = 'form-status success';
+                    status.textContent = "Message sent! I'll be in touch shortly.";
+                    btn.textContent = 'Sent ✓';
+                    form.reset();
+                } else {
+                    throw new Error('Form submission failed');
+                }
+            })
+            .catch(() => {
+                status.className = 'form-status error';
+                status.textContent = 'Something went wrong. Please call 250-881-6000 instead.';
+                btn.textContent = 'Send Message';
+            })
+            .finally(() => {
                 setTimeout(() => {
                     btn.disabled = false;
                     btn.textContent = 'Send Message';
                     status.textContent = '';
                     status.className = 'form-status';
-                }, 4000);
-            }, 1200);
+                }, 5000);
+            });
         }
     </script>
 </body>
