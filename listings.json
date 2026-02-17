@@ -20,13 +20,13 @@
     "url": "https://www.realtor.ca/real-estate/29129363/3913-gibson-crt-saanich-ten-mile-point"
   },
   {
-    "image": "",
-    "tag": "Just Sold",
-    "address": "789 Demo Boulevard, Oak Bay",
-    "price": "SOLD",
-    "beds": 5,
+    "image": "https://cdn.realtor.ca/listing/TS638979688537930000/reb3/highres/1/1019011_1.jpg",
+    "tag": "Feature Listing",
+    "address": "1141 Fort Street, Victoria",
+    "price": "$1,775,000",
+    "beds": 4,
     "baths": 4,
-    "sqft": "3,200",
-    "url": "https://www.realtor.ca/real-estate/XXXXXXX"
+    "sqft": "4,358",
+    "url": "https://www.realtor.ca/real-estate/29073303/1141-fort-st-victoria-downtown"
   }
 ]
