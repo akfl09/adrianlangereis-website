@@ -1,7 +1,7 @@
 [
   {
     "image": "https://cdn.realtor.ca/listing/TS638949681100400000/reb3/highres/6/1015576_1.jpg",
-    "tag": "Featured",
+    "tag": "Featured Listing",
     "address": "2086 Marne, Oak Bay",
     "price": "$4,750,000",
     "beds": 4,
@@ -10,14 +10,14 @@
     "url": "https://www.realtor.ca/real-estate/28939506/2086-marne-st-oak-bay-gonzales"
   },
   {
-    "image": "",
+    "image": "https://cdn.realtor.ca/listing/TS638994159314570000/reb3/highres/1/1021021_1.jpg",
     "tag": "New Listing",
-    "address": "456 Sample Avenue, Saanich",
-    "price": "$899,000",
-    "beds": 3,
-    "baths": 2,
-    "sqft": "1,800",
-    "url": "https://www.realtor.ca/real-estate/XXXXXXX"
+    "address": "3913 Gibson Court, Ten Mile Point",
+    "price": "$2,169,900",
+    "beds": 5,
+    "baths": 3,
+    "sqft": "3,291",
+    "url": "https://www.realtor.ca/real-estate/29129363/3913-gibson-crt-saanich-ten-mile-point"
   },
   {
     "image": "",
