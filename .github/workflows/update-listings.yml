@@ -1,0 +1,37 @@
+name: Update Listings from DDF
+
+on:
+  schedule:
+    - cron: '0 14 * * *'
+  workflow_dispatch:
+
+jobs:
+  update-listings:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Fetch listings from DDF
+        env:
+          DDF_USERNAME: ${{ secrets.DDF_USERNAME }}
+          DDF_PASSWORD: ${{ secrets.DDF_PASSWORD }}
+          CREA_MEMBER_ID: "3700"
+        run: python fetch_listings.py
+
+      - name: Commit updated listings
+        run: |
+          git config user.name "DDF Bot"
+          git config user.email "bot@adrianlangereis.com"
+          git add listings.json
+          git diff --staged --quiet || git commit -m "Auto-update listings from DDF $(date +%Y-%m-%d)"
+          git push
