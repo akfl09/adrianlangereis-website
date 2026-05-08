@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Adrian Langereis | Managing Broker — Southern Vancouver Island & Greater Vancouver</title>
     <meta name="description" content="Over 22 years of experience. $900M+ in real estate sold. Managing Broker specializing in Southern Vancouver Island & Greater Vancouver.">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="favicon-192.png">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -457,7 +461,7 @@
             gap: 20px;
         }
 
-        a.property-card {
+        .property-card {
             background: var(--dark-surface);
             border: 1px solid var(--dark-border);
             overflow: hidden;
@@ -467,7 +471,7 @@
             display: block;
         }
 
-        a.property-card:hover { border-color: var(--accent); transform: translateY(-4px); }
+        .property-card:hover { border-color: var(--accent); transform: translateY(-4px); }
 
         .property-image {
             width: 100%;
@@ -799,6 +803,205 @@
         .form-status { margin-top: 16px; font-size: 0.85rem; text-align: center; min-height: 24px; }
         .form-status.success { color: #5CB85C; }
         .form-status.error { color: #E05252; }
+
+        /* ═══ PROPERTY MODAL ═══ */
+        .property-modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(20, 20, 20, 0.92);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            z-index: 2000;
+            overflow-y: auto;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .property-modal-overlay.active { display: block; opacity: 1; }
+
+        .property-modal {
+            max-width: 900px;
+            margin: 60px auto;
+            background: var(--cream);
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px; right: 24px;
+            background: none;
+            border: none;
+            color: var(--text-muted-dark);
+            font-size: 1.8rem;
+            cursor: pointer;
+            z-index: 10;
+            width: 44px; height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.3s;
+        }
+
+        .modal-close:hover { color: var(--text-dark); }
+
+        .modal-gallery {
+            width: 100%;
+            aspect-ratio: 16/10;
+            background: var(--cream-dark);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .modal-gallery img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .modal-gallery-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted-dark);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .modal-gallery-nav {
+            position: absolute;
+            bottom: 16px; right: 16px;
+            display: flex;
+            gap: 8px;
+        }
+
+        .modal-gallery-nav button {
+            width: 36px; height: 36px;
+            background: rgba(20, 20, 20, 0.7);
+            border: none;
+            color: var(--cream);
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s;
+        }
+
+        .modal-gallery-nav button:hover { background: rgba(20, 20, 20, 0.9); }
+
+        .modal-body {
+            padding: 48px;
+        }
+
+        .modal-tag {
+            font-size: 0.65rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            color: var(--warm-gray);
+            margin-bottom: 12px;
+        }
+
+        .modal-address {
+            font-family: var(--font-display);
+            font-size: clamp(1.8rem, 3vw, 2.6rem);
+            font-weight: 500;
+            color: var(--text-dark);
+            line-height: 1.1;
+            margin-bottom: 8px;
+        }
+
+        .modal-price {
+            font-family: var(--font-display);
+            font-size: 1.4rem;
+            font-weight: 500;
+            color: var(--text-dark);
+            margin-bottom: 28px;
+        }
+
+        .modal-specs {
+            display: flex;
+            gap: 32px;
+            padding: 24px 0;
+            border-top: 1px solid var(--cream-dark);
+            border-bottom: 1px solid var(--cream-dark);
+            margin-bottom: 28px;
+        }
+
+        .modal-spec {
+            text-align: center;
+        }
+
+        .modal-spec-value {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: var(--text-dark);
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+
+        .modal-spec-label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--text-muted-dark);
+            font-weight: 500;
+        }
+
+        .modal-description {
+            font-size: 0.92rem;
+            color: var(--text-muted-dark);
+            line-height: 1.8;
+            font-weight: 300;
+            margin-bottom: 32px;
+        }
+
+        .modal-features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px 32px;
+            margin-bottom: 36px;
+        }
+
+        .modal-feature {
+            font-size: 0.82rem;
+            color: var(--text-muted-dark);
+            padding: 8px 0;
+            border-bottom: 1px solid var(--cream-dark);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .modal-actions .btn-primary {
+            flex: 1;
+            text-align: center;
+        }
+
+        .modal-actions .btn-outline {
+            color: var(--text-dark);
+            border: 1px solid var(--cream-dark);
+            text-align: center;
+        }
+
+        .modal-actions .btn-outline:hover {
+            border-color: var(--text-dark);
+        }
+
+        @media (max-width: 640px) {
+            .property-modal { margin: 0; min-height: 100vh; }
+            .modal-body { padding: 28px 20px; }
+            .modal-specs { gap: 20px; }
+            .modal-features { grid-template-columns: 1fr; }
+            .modal-actions { flex-direction: column; }
+        }
 
         /* ═══ FOOTER ═══ */
         footer {
@@ -1170,6 +1373,26 @@
         </div>
     </section>
 
+    <!-- ═══ PROPERTY MODAL ═══ -->
+    <div class="property-modal-overlay" id="propertyModal">
+        <div class="property-modal">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <div class="modal-gallery" id="modalGallery"></div>
+            <div class="modal-body">
+                <p class="modal-tag" id="modalTag"></p>
+                <h2 class="modal-address" id="modalAddress"></h2>
+                <p class="modal-price" id="modalPrice"></p>
+                <div class="modal-specs" id="modalSpecs"></div>
+                <p class="modal-description" id="modalDescription"></p>
+                <div class="modal-features" id="modalFeatures"></div>
+                <div class="modal-actions">
+                    <a href="#contact" class="btn-primary" onclick="closeModal()">Inquire About This Property</a>
+                    <a href="" class="btn-outline" id="modalRealtorLink" target="_blank" rel="noopener">View on REALTOR.ca</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- ═══ FOOTER ═══ -->
     <footer>
         <div class="container">
@@ -1232,22 +1455,109 @@
         }
         loadArticles();
 
+        // ═══ LISTINGS DATA (stored globally for modal access) ═══
+        let allListings = [];
+
         // ═══ LOAD LISTINGS ═══
         async function loadListings() {
             const grid = document.getElementById('propertiesGrid');
             try {
                 const r = await fetch('listings.json');
-                const listings = await r.json();
-                if (!listings.length) { grid.innerHTML = '<p style="text-align:center;grid-column:1/-1;" class="body-text">No featured listings at this time. <a href="https://www.realtor.ca/agent/1571599/adrian-langereis-200-535-yates-street-victoria-british-columbia-v8w2z6" target="_blank" style="color:var(--accent);">View all on REALTOR.ca</a></p>'; return; }
-                grid.innerHTML = listings.map((l, i) => {
+                allListings = await r.json();
+                if (!allListings.length) { grid.innerHTML = '<p style="text-align:center;grid-column:1/-1;" class="body-text">No featured listings at this time. <a href="https://www.realtor.ca/agent/1571599/adrian-langereis-200-535-yates-street-victoria-british-columbia-v8w2z6" target="_blank" style="color:var(--accent);">View all on REALTOR.ca</a></p>'; return; }
+                grid.innerHTML = allListings.map((l, i) => {
                     const s = i > 0 ? ` stagger-${Math.min(i, 4)}` : '';
                     const img = l.image ? `<img src="${l.image}" alt="${l.address}">` : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>Photo coming soon</span>`;
-                    return `<a href="${l.url||'#'}" class="property-card reveal${s}" target="_blank" rel="noopener"><div class="property-image">${img}</div><div class="property-details"><p class="property-tag">${l.tag||'Featured'}</p><h3>${l.address}</h3><p class="price">${l.price}</p><div class="property-meta">${l.beds?`<span>${l.beds} Beds</span>`:''}${l.baths?`<span>${l.baths} Baths</span>`:''}${l.sqft?`<span>${l.sqft} Sq Ft</span>`:''}</div></div></a>`;
+                    return `<div class="property-card reveal${s}" onclick="openModal(${i})" style="cursor:pointer;"><div class="property-image">${img}</div><div class="property-details"><p class="property-tag">${l.tag||'Featured'}</p><h3>${l.address}</h3><p class="price">${l.price}</p><div class="property-meta">${l.beds?`<span>${l.beds} Beds</span>`:''}${l.baths?`<span>${l.baths} Baths</span>`:''}${l.sqft?`<span>${l.sqft} Sq Ft</span>`:''}</div></div></div>`;
                 }).join('');
                 grid.querySelectorAll('.reveal').forEach(el => observer.observe(el));
             } catch(e) { grid.innerHTML = '<p style="text-align:center;grid-column:1/-1;" class="body-text">Featured listings coming soon. <a href="https://www.realtor.ca/agent/1571599/adrian-langereis-200-535-yates-street-victoria-british-columbia-v8w2z6" target="_blank" style="color:var(--accent);">View all on REALTOR.ca</a></p>'; }
         }
         loadListings();
+
+        // ═══ PROPERTY MODAL ═══
+        let currentImageIndex = 0;
+        let currentImages = [];
+
+        function openModal(index) {
+            const l = allListings[index];
+            if (!l) return;
+
+            const modal = document.getElementById('propertyModal');
+            const gallery = document.getElementById('modalGallery');
+
+            // Images — support single image or array
+            currentImages = l.images || (l.image ? [l.image] : []);
+            currentImageIndex = 0;
+
+            if (currentImages.length > 0) {
+                gallery.innerHTML = `<img src="${currentImages[0]}" alt="${l.address}" id="modalMainImage">` +
+                    (currentImages.length > 1 ? `<div class="modal-gallery-nav"><button onclick="prevImage()">&#8592;</button><button onclick="nextImage()">&#8594;</button></div>` : '');
+            } else {
+                gallery.innerHTML = '<div class="modal-gallery-placeholder">Photo coming soon</div>';
+            }
+
+            document.getElementById('modalTag').textContent = l.tag || 'Featured';
+            document.getElementById('modalAddress').textContent = l.address;
+            document.getElementById('modalPrice').textContent = l.price;
+
+            // Specs
+            let specs = '';
+            if (l.beds) specs += `<div class="modal-spec"><div class="modal-spec-value">${l.beds}</div><div class="modal-spec-label">Bedrooms</div></div>`;
+            if (l.baths) specs += `<div class="modal-spec"><div class="modal-spec-value">${l.baths}</div><div class="modal-spec-label">Bathrooms</div></div>`;
+            if (l.sqft) specs += `<div class="modal-spec"><div class="modal-spec-value">${l.sqft}</div><div class="modal-spec-label">Sq Ft</div></div>`;
+            if (l.lot) specs += `<div class="modal-spec"><div class="modal-spec-value">${l.lot}</div><div class="modal-spec-label">Lot Size</div></div>`;
+            if (l.year) specs += `<div class="modal-spec"><div class="modal-spec-value">${l.year}</div><div class="modal-spec-label">Year Built</div></div>`;
+            document.getElementById('modalSpecs').innerHTML = specs;
+
+            // Description
+            document.getElementById('modalDescription').textContent = l.description || '';
+            document.getElementById('modalDescription').style.display = l.description ? 'block' : 'none';
+
+            // Features
+            const features = l.features || [];
+            document.getElementById('modalFeatures').innerHTML = features.map(f => `<div class="modal-feature">${f}</div>`).join('');
+            document.getElementById('modalFeatures').style.display = features.length ? 'grid' : 'none';
+
+            // Realtor.ca link
+            const realtorLink = document.getElementById('modalRealtorLink');
+            if (l.url && l.url !== '#') {
+                realtorLink.href = l.url;
+                realtorLink.style.display = 'inline-block';
+            } else {
+                realtorLink.style.display = 'none';
+            }
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('propertyModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function nextImage() {
+            if (currentImages.length <= 1) return;
+            currentImageIndex = (currentImageIndex + 1) % currentImages.length;
+            document.getElementById('modalMainImage').src = currentImages[currentImageIndex];
+        }
+
+        function prevImage() {
+            if (currentImages.length <= 1) return;
+            currentImageIndex = (currentImageIndex - 1 + currentImages.length) % currentImages.length;
+            document.getElementById('modalMainImage').src = currentImages[currentImageIndex];
+        }
+
+        // Close modal on overlay click or Escape key
+        document.getElementById('propertyModal').addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeModal();
+            if (e.key === 'ArrowRight') nextImage();
+            if (e.key === 'ArrowLeft') prevImage();
+        });
 
         // ═══ CONTACT FORM ═══
         function handleSubmit(e) {

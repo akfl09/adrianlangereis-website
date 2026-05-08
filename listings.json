@@ -1,32 +1,43 @@
 [
   {
-    "image": "https://cdn.realtor.ca/listing/TS638949681100400000/reb3/highres/6/1015576_1.jpg",
-    "tag": "Featured Listing",
-    "address": "2086 Marne, Oak Bay",
-    "price": "$4,750,000",
+    "image": "",
+    "images": [],
+    "tag": "Featured",
+    "address": "123 Example Street, Victoria",
+    "price": "$1,295,000",
     "beds": 4,
     "baths": 3,
-    "sqft": "2,789",
-    "url": "https://www.realtor.ca/real-estate/28939506/2086-marne-st-oak-bay-gonzales"
+    "sqft": "2,450",
+    "lot": "6,200 sqft",
+    "year": "2018",
+    "description": "Quiet design. Clean lines. A home positioned for buyers who value architecture, light, and space. Open-concept main floor with floor-to-ceiling windows overlooking a private backyard.",
+    "features": ["Hardwood floors throughout", "Chef's kitchen with quartz counters", "Primary suite with ensuite & walk-in", "Double garage", "Heat pump", "Minutes to downtown Victoria"],
+    "url": "https://www.realtor.ca/real-estate/XXXXXXX"
   },
   {
-    "image": "https://cdn.realtor.ca/listings/TS639111833355500000/reb3/highres/6/1031236_1.jpg",
+    "image": "",
+    "images": [],
     "tag": "New Listing",
-    "address": "932 Arcadia Street, Esquimalt",
-    "price": "$1,600,000",
-    "beds": 4,
-    "baths": 4,
-    "sqft": "2,302",
-    "url": "https://www.realtor.ca/real-estate/29569045/932-arcadia-st-esquimalt-kinsmen-park?propertyId=29569045"
+    "address": "456 Sample Avenue, Saanich",
+    "price": "$899,000",
+    "beds": 3,
+    "baths": 2,
+    "sqft": "1,800",
+    "description": "Well-maintained rancher in a sought-after Saanich neighbourhood. Updated kitchen, spacious living areas, and a large fenced yard.",
+    "features": ["Single level living", "Updated kitchen & bathrooms", "Large fenced backyard", "Close to schools & transit"],
+    "url": "https://www.realtor.ca/real-estate/XXXXXXX"
   },
   {
-    "image": "https://cdn.realtor.ca/listing/TS638979688537930000/reb3/highres/1/1019011_1.jpg",
-    "tag": "Feature Listing",
-    "address": "1141 Fort Street, Victoria",
-    "price": "$1,775,000",
-    "beds": 4,
+    "image": "",
+    "images": [],
+    "tag": "Just Sold",
+    "address": "789 Demo Boulevard, Oak Bay",
+    "price": "SOLD",
+    "beds": 5,
     "baths": 4,
-    "sqft": "4,358",
-    "url": "https://www.realtor.ca/real-estate/29073303/1141-fort-st-victoria-downtown"
+    "sqft": "3,200",
+    "description": "Represented the seller on this exceptional Oak Bay family home. Strong positioning, clean execution, premium result.",
+    "features": [],
+    "url": "#"
   }
 ]
