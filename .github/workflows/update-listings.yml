@@ -26,10 +26,9 @@ jobs:
 
       - name: Fetch listings from DDF
         env:
-          DDF_USERNAME:   ${{ secrets.DDF_USERNAME }}
-          DDF_PASSWORD:   ${{ secrets.DDF_PASSWORD }}
-          DDF_AGENT_KEY:  "1571599"
-          DDF_OFFICE_KEY: "293754"
+          DDF_USERNAME:  ${{ secrets.DDF_USERNAME }}
+          DDF_PASSWORD:  ${{ secrets.DDF_PASSWORD }}
+          DDF_AGENT_KEY: "1571599"
         run: python fetch_listings.py
 
       - name: Commit updated listings

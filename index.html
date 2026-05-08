@@ -1003,6 +1003,99 @@
             .modal-actions { flex-direction: column; }
         }
 
+        /* ═══ PROPERTY MODAL — INLINE INQUIRY FORM ═══ */
+        .modal-inquiry {
+            margin-top: 8px;
+            padding-top: 32px;
+            border-top: 1px solid var(--cream-dark);
+        }
+
+        .modal-inquiry h3 {
+            font-family: var(--font-display);
+            font-size: 1.4rem;
+            font-weight: 500;
+            color: var(--text-dark);
+            margin-bottom: 14px;
+        }
+
+        .modal-inquiry-property {
+            font-size: 0.78rem;
+            color: var(--text-muted-dark);
+            margin-bottom: 22px;
+            padding: 10px 14px;
+            background: var(--cream);
+            border-left: 2px solid var(--accent);
+        }
+
+        .modal-inquiry .form-group { margin-bottom: 16px; }
+
+        .modal-inquiry .form-group label {
+            display: block;
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--text-muted-dark);
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
+
+        .modal-inquiry .form-group input,
+        .modal-inquiry .form-group textarea {
+            width: 100%;
+            padding: 12px 14px;
+            background: #FFFFFF;
+            border: 1px solid var(--cream-dark);
+            color: var(--text-dark);
+            font-family: var(--font-body);
+            font-size: 0.88rem;
+            transition: border-color 0.3s;
+            outline: none;
+            -webkit-appearance: none;
+            border-radius: 0;
+        }
+
+        .modal-inquiry .form-group input:focus,
+        .modal-inquiry .form-group textarea:focus { border-color: var(--text-dark); }
+
+        .modal-inquiry .form-group textarea {
+            min-height: 90px;
+            resize: vertical;
+        }
+
+        .modal-inquiry .form-submit {
+            width: 100%;
+            background: var(--text-dark);
+            color: var(--cream);
+            padding: 14px;
+            font-family: var(--font-body);
+            font-size: 0.78rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .modal-inquiry .form-submit:hover { background: var(--accent); color: var(--text-dark); }
+        .modal-inquiry .form-submit:disabled { opacity: 0.7; cursor: not-allowed; }
+
+        .modal-realtor-link {
+            display: block;
+            margin-top: 24px;
+            padding-top: 18px;
+            text-align: center;
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            color: var(--text-muted-dark);
+            text-decoration: none;
+            border-top: 1px solid var(--cream-dark);
+            transition: color 0.3s;
+        }
+
+        .modal-realtor-link:hover { color: var(--text-dark); }
+
         /* ═══ FOOTER ═══ */
         footer {
             padding: 44px 0;
@@ -1385,9 +1478,35 @@
                 <div class="modal-specs" id="modalSpecs"></div>
                 <p class="modal-description" id="modalDescription"></p>
                 <div class="modal-features" id="modalFeatures"></div>
-                <div class="modal-actions">
-                    <a href="#contact" class="btn-primary" onclick="closeModal()">Inquire About This Property</a>
-                    <a href="" class="btn-outline" id="modalRealtorLink" target="_blank" rel="noopener">View on REALTOR.ca</a>
+                <div class="modal-inquiry">
+                    <h3>Inquire About This Property</h3>
+                    <p class="modal-inquiry-property" id="modalInquiryPropertyDisplay"></p>
+                    <form name="contact" method="POST" action="/" data-netlify="true" netlify-honeypot="bot-field" onsubmit="handleSubmit(event)">
+                        <input type="hidden" name="form-name" value="contact">
+                        <input type="hidden" name="property" id="modalInquiryProperty">
+                        <p style="display:none;"><input name="bot-field"></p>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="modalInquiryName">Name *</label>
+                                <input type="text" id="modalInquiryName" name="name" required placeholder="Your name">
+                            </div>
+                            <div class="form-group">
+                                <label for="modalInquiryEmail">Email *</label>
+                                <input type="email" id="modalInquiryEmail" name="email" required placeholder="you@email.com">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="modalInquiryPhone">Phone</label>
+                            <input type="tel" id="modalInquiryPhone" name="phone" placeholder="(XXX) XXX-XXXX">
+                        </div>
+                        <div class="form-group">
+                            <label for="modalInquiryMessage">Message</label>
+                            <textarea id="modalInquiryMessage" name="message" placeholder="Questions about this property?"></textarea>
+                        </div>
+                        <button type="submit" class="form-submit">Send Inquiry</button>
+                        <div class="form-status"></div>
+                    </form>
+                    <a href="" class="modal-realtor-link" id="modalRealtorLink" target="_blank" rel="noopener">View on REALTOR.ca →</a>
                 </div>
             </div>
         </div>
@@ -1519,11 +1638,30 @@
             document.getElementById('modalFeatures').innerHTML = features.map(f => `<div class="modal-feature">${f}</div>`).join('');
             document.getElementById('modalFeatures').style.display = features.length ? 'grid' : 'none';
 
+            // Pre-fill the inquiry form's hidden + visible property fields
+            document.getElementById('modalInquiryProperty').value = l.address;
+            document.getElementById('modalInquiryPropertyDisplay').textContent =
+                'Inquiring about: ' + l.address;
+
+            // Reset inquiry form state (clear stale fields/status from prior open)
+            const inquiryForm = modal.querySelector('.modal-inquiry form');
+            if (inquiryForm) {
+                inquiryForm.reset();
+                document.getElementById('modalInquiryProperty').value = l.address;
+                const inquiryStatus = inquiryForm.querySelector('.form-status');
+                if (inquiryStatus) { inquiryStatus.textContent = ''; inquiryStatus.className = 'form-status'; }
+                const inquiryBtn = inquiryForm.querySelector('.form-submit');
+                if (inquiryBtn) {
+                    inquiryBtn.disabled = false;
+                    inquiryBtn.textContent = inquiryBtn.dataset.label || 'Send Inquiry';
+                }
+            }
+
             // Realtor.ca link
             const realtorLink = document.getElementById('modalRealtorLink');
             if (l.url && l.url !== '#') {
                 realtorLink.href = l.url;
-                realtorLink.style.display = 'inline-block';
+                realtorLink.style.display = '';
             } else {
                 realtorLink.style.display = 'none';
             }
@@ -1559,12 +1697,14 @@
             if (e.key === 'ArrowLeft') prevImage();
         });
 
-        // ═══ CONTACT FORM ═══
+        // ═══ CONTACT FORM (handles both the page form and the in-modal inquiry form) ═══
         function handleSubmit(e) {
             e.preventDefault();
             const form = e.target;
             const btn = form.querySelector('.form-submit');
-            const status = document.getElementById('formStatus');
+            const status = form.querySelector('.form-status');
+            if (!btn.dataset.label) btn.dataset.label = btn.textContent;
+            const originalLabel = btn.dataset.label;
             btn.disabled = true;
             btn.textContent = 'Sending...';
             const formData = new FormData(form);
@@ -1577,8 +1717,8 @@
                 if (r.ok) { status.className='form-status success'; status.textContent="Message sent! I'll be in touch shortly."; btn.textContent='Sent ✓'; form.reset(); }
                 else throw new Error('fail');
             })
-            .catch(() => { status.className='form-status error'; status.textContent='Something went wrong. Please call 250-881-6000.'; btn.textContent='Send Message'; })
-            .finally(() => { setTimeout(() => { btn.disabled=false; btn.textContent='Send Message'; status.textContent=''; status.className='form-status'; }, 5000); });
+            .catch(() => { status.className='form-status error'; status.textContent='Something went wrong. Please call 250-881-6000.'; btn.textContent=originalLabel; })
+            .finally(() => { setTimeout(() => { btn.disabled=false; btn.textContent=originalLabel; status.textContent=''; status.className='form-status'; }, 5000); });
         }
     </script>
 </body>

@@ -4,9 +4,8 @@ Fetch Adrian Langereis's active listings from CREA DDF and write listings.json.
 
 CREA DDF specifics (learned from the live feed):
   * The search resource only exposes 3 searchable fields (ID, LastUpdated,
-    DestinationID). None of them filter to a specific agent or office, so we
-    have to scan the (CREA-narrowed) feed and match client-side on
-    ListAgentKey / ListOfficeKey.
+    DestinationID). None of them filter to a specific agent, so we have to
+    scan the (CREA-narrowed) feed and match client-side on ListAgentKey.
   * (DestinationID=N) is a *mode switch*, not a filter — it tells the server
     to return full property records (~230 columns) instead of an ID-only
     manifest. The N value is ignored.
@@ -26,15 +25,13 @@ import re
 import sys
 import time
 from typing import Optional
-from xml.etree import ElementTree as ET
 
 import requests
 from requests.auth import HTTPDigestAuth
 
 DDF_USERNAME = os.environ.get("DDF_USERNAME", "")
 DDF_PASSWORD = os.environ.get("DDF_PASSWORD", "")
-AGENT_KEY    = os.environ.get("DDF_AGENT_KEY",  "1571599")
-OFFICE_KEY   = os.environ.get("DDF_OFFICE_KEY", "293754")
+AGENT_KEY    = os.environ.get("DDF_AGENT_KEY", "1571599")
 
 LOGIN_URL = "https://data.crea.ca/Login.svc/Login"
 
@@ -136,12 +133,11 @@ def scan_for_matches(session: requests.Session, search_url: str, total: int) -> 
         if not rows:
             break
         try:
-            i_agent  = cols.index("ListAgentKey")
-            i_office = cols.index("ListOfficeKey")
+            i_agent = cols.index("ListAgentKey")
         except ValueError as e:
             raise RuntimeError(f"Expected column missing from feed: {e}")
         for row in rows:
-            if row[i_agent] == AGENT_KEY or row[i_office] == OFFICE_KEY:
+            if row[i_agent] == AGENT_KEY:
                 matches.append(dict(zip(cols, row)))
         if time.time() - last_log > 10:
             elapsed = time.time() - started
@@ -235,6 +231,10 @@ def main() -> int:
     session = requests.Session()
     session.auth = HTTPDigestAuth(DDF_USERNAME, DDF_PASSWORD)
     session.headers.update(HTTP_HEADERS)
+    # CREA serves UTF-8 but its Content-Type header doesn't say so, which
+    # makes requests fall back to Latin-1 and turns smart quotes / accents
+    # into mojibake. Force UTF-8 on every response.
+    session.hooks["response"] = [lambda r, *a, **k: setattr(r, "encoding", "utf-8") or r]
 
     print(f"Login as {DDF_USERNAME[:4]}...")
     caps = login(session)
@@ -249,7 +249,7 @@ def main() -> int:
         print("Feed currently empty. Leaving listings.json untouched.")
         return 0
 
-    print(f"Scanning for ListAgentKey={AGENT_KEY} or ListOfficeKey={OFFICE_KEY}...")
+    print(f"Scanning for ListAgentKey={AGENT_KEY}...")
     matches = scan_for_matches(session, caps["Search"], total)
     print(f"Matched {len(matches)} listing(s).")
 
@@ -265,8 +265,9 @@ def main() -> int:
 
     # Strip None values so the JSON stays compact + matches the website schema.
     cleaned = [{k: v for k, v in listing.items() if v is not None} for listing in listings]
-    with open("listings.json", "w") as f:
-        json.dump(cleaned, f, indent=2)
+    with open("listings.json", "w", encoding="utf-8") as f:
+        json.dump(cleaned, f, indent=2, ensure_ascii=False)
+        f.write("\n")
     print(f"Wrote listings.json with {len(cleaned)} listing(s).")
     return 0
 
